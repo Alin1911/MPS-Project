@@ -1,3 +1,5 @@
+https://docs.google.com/document/d/17gswddcV66ZnkId-ew8bttOM25bxNgqW0YIWSWaodGo/edit
+
 Project Manager: Serban Alexandru-George 344C2
 
 Team Leader / Liderul echipei: Marii Hristofor 344C4
