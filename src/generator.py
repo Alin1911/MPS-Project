@@ -1,9 +1,17 @@
+
 import os
 import random
 
 def choose_operator():
-    operators = ['+=', '-=', '*=', '= result and', '= result or', '%=']
+    operators = ['+=', '-=', '*=', '= result and', '= result or']
     return operators[random.randint(0, len(operators) - 1)]
+
+def build_header():
+    header = 'import functools\n'
+    header += 'import math\n'
+    header += 'import numpy as np\n'
+    header += '\n'
+    return header
 
 def build_body(func, nr_templates):
     body = ''
@@ -39,7 +47,9 @@ def build_body(func, nr_templates):
         body += 'return ((result / index) % 100) / 100 #while\n\n'
     elif(func == 'LOG'):
         body += '\tmyval =  np.sum(args)\n\t'
-        body += 'result = (math.log(myval % 10))  % 10 / 10\n\t'
+        body += 'if myval <= 0:\n\t\t'
+        body += 'return 0\n\t'
+        body += 'result = math.fabs((math.log(myval % 10))  % 10 / 10)\n\t'
         body += 'return result #log\n\n'
     elif(func == 'SIN'):
         body += '\tlambda_sum = functools.reduce(lambda x, y: x + y - ' + str(random.randint(1, 100)) + ', args)\n\t'
@@ -79,29 +89,20 @@ def build_body(func, nr_templates):
         magic = random.uniform(0, 1)
         body += 'magic_number = ' + str(magic) + '\n\t'
         body += 'return myval if  myval <= magic_number else ' + str(random.uniform(magic, 1)) + ' #IF\n\n'
-    elif(func == 'COMPOSITE_FUNCTION'): #compoite a function from a set of templates
+    elif(func == 'COMPOSITE_FUNCTION'): #composite a function from a set of templates
         body += '\tresult = ' + str(random.uniform(0, 1)) +'\n\t'
-        nr_of_calls = random.randint(1, 20) #number of aux functions that makes composite func.
+        nr_of_calls = random.randint(1, 3) #number of aux functions that makes composite func.
         for _ in range(nr_of_calls):
-            body += 'result ' + choose_operator() + ' function' + str(random.randint(0, nr_templates)) + \
-                    '(*args)\n\t'
-        body += 'if result >= 1 or result < 0:\n\t\t' #guadranting that result is in [0, 1)
-        body += 'result = result % 0.999\n\t'
+            body += 'result ' + choose_operator() + ' math.fabs(function' + str(random.randint(0, nr_templates)) + \
+                    '(*args))\n\t'
+        body += 'result = math.fabs(result) % 0.999\n\t'
         body += 'return result #composite function\n\n'
     else:
         body += '\tprint(\'UNKNOWN METHOD ! :( \')\n\t'
         body += 'return 0.0\n\n'
     return body
-    # type_of_function = ['AND', 'OR', 'IF', 'FOR', 'WHILE', 'LOG', 'SIN', 'COS', 'TAN', 'DEFAULT', 'ONE', '1-1/(1+x)', '1- 1/(e^(2x) + 1)', 'AVG', 'MEAN', 'RANDOM', 'COMPOSITE_FUNCTION']
 
-def build_header():
-    header = 'import functools\n'
-    header += 'import math\n'
-    header += 'import numpy as np\n'
-    header += '\n'
-    return header
-
-def generate_functions(functions, number_of_functions, max_args):
+def generate_functions(functions, number_of_functions):
     #Genereaza un modul (fisier) .py cu functii
     name = 'functions.py'
     if os.path.exists(name):
@@ -110,13 +111,13 @@ def generate_functions(functions, number_of_functions, max_args):
         elif os.path.isdir(name):
             print("There is a directory with this name !")
         else:
-            print("Error occured at " + name +'.py crreation')
+            print("Error occured at " + name +' crreation')
         return 0 #somehow is ok if we have the file. Continue to execute.
     else:
         with open(name, 'w') as fp:
             # make imports in new file
             fp.write(build_header())
-            #create template functions for each type and compose them ( funcions[-1] = COMPOSITE_FUNCTION)])
+            #create template functions for each type and compose them ( funcions[-1] = COMPOSITE_FUNCTION) )
             for j in range(number_of_functions):
                 definition = 'def function' + str(j) + '(*args):\n'
                 body = build_body(functions[j], len(functions) - 2) \
@@ -129,17 +130,15 @@ def generate_functions(functions, number_of_functions, max_args):
         err = True
         print('This module was not found')
     finally:
-        if err == False:
-            pass
-        else:
+        if err != False:
             return -1 # Cracked :(
 
-def main():
+def generator():
     # implelented functions
-    type_of_function = ['AND', 'OR', 'IF', 'FOR', 'WHILE', 'LOG', 'SIN', 'COS', 'TAN', 'DEFAULT', 'ONE', '1-1/(1+x)', '1 - 1 / (e ^ (2x) + 1)', 'AVG', 'MEAN', 'RANDOM', 'COMPOSITE_FUNCTION']
+    type_of_function = ['AND', 'OR', 'IF', 'FOR', 'LOG', 'WHILE', 'SIN', 'COS', 'TAN', 'DEFAULT', 'ONE', '1-1/(1+x)', '1 - 1 / (e ^ (2x) + 1)', 'AVG', 'MEAN', 'RANDOM', 'COMPOSITE_FUNCTION']
     total_number_functions_to_generate = 100 #set number of functions to generate ( must be > len(type_of_function) )
-    generate_functions(type_of_function, random.randint(len(type_of_function) - 1, total_number_functions_to_generate), random.randint(1, 10))
+    generate_functions(type_of_function, total_number_functions_to_generate)
     
 if __name__ == '__main__':
     print('FUNCTIONS GENERATOR')
-    main()
+    generator()
