@@ -1,0 +1,26 @@
+In etapa de antrenare, vom crea 2 arbori aleatori pe care sa ii comparam
+0: 0.9649834413318513
+1: 0.9617618206115195
+A fost eliminat arborele cu indicele 1
+
+Arborele obtinut dupa etapa de antrenare a fost salvat in fisierul local_test_result.txt
+ 
+In etapa de validare, comparam arborele obtinut in etapa de antrenare cu alti 1 arbori aleatori, arborele initial avand indicele 0
+0: 0.9382719755000803
+1: 0.9678347103937855
+A fost eliminat arborele cu indicele 0
+
+Arborele obtinut dupa etapa de validare a fost salvat in fisierul local_final_result.txt
+
+Arborele final a obtinut in etapa de test un scor f-measure final de 0.786085666200674 intr-un timp de 66.20032835006714s.
+Threshold-ul Average a obtinut in etapa de test un scor f-measure final de 0.6049922749685955.
+Threshold-ul Midrange a obtinut in etapa de test un scor f-measure final de 0.7848964176237928.
+Threshold-ul White a obtinut in etapa de test un scor f-measure final de 0.7852594444795873.
+Threshold-ul Bernsen a obtinut in etapa de test un scor f-measure final de 0.782496600228539.
+Threshold-ul Niblack a obtinut in etapa de test un scor f-measure final de 0.6540250024026432.
+Threshold-ul Sauvola a obtinut in etapa de test un scor f-measure final de 0.7857278251499143.
+Threshold-ul Wolf a obtinut in etapa de test un scor f-measure final de 0.7853461231750596.
+Threshold-ul Phansalkar a obtinut in etapa de test un scor f-measure final de 0.7879543558183387.
+Threshold-ul Nick a obtinut in etapa de test un scor f-measure final de 0.7880813406721255.
+Threshold-ul Gaussian a obtinut in etapa de test un scor f-measure final de 0.5901650721019557.
+
